@@ -8,7 +8,7 @@ class KAPiMerchant extends KAPi
 {
     private $Url = 'https://openapi.kasikornbank.com';
     private $UrlSSL = 'https://openapi.kasikornbank.com/exercise/ssl';
-    public $Header, $isTest, $isV1, $ApiKey, $ApiSecret, $ApiToken, $isSSL, $partnerId, $partnerSecret, $merchantId;
+    public $Header, $isTest, $isV1, $ApiKey, $ApiSecret, $ProjectID, $ProjectKey, $PartnerID, $ApiToken, $isSSL;
 
     public function __construct($isV1 = false, $ar = null, $isTest = false, $SSL = false)
     {
@@ -17,9 +17,20 @@ class KAPiMerchant extends KAPi
         if ($this->isTest) {
             $this->Url = 'https://openapi-sandbox.kasikornbank.com';
             $this->UrlSSL = 'https://openapi-test.kasikornbank.com/exercise/ssl';
+
+            $this->Header[] = 'ProjectID:999';
+            $this->Header[] = 'ProjectKey:d4bded59200547bc85903574a293831b';
+            $this->Header[] = 'PartnerID:0001';
+        } else {
+            $this->Header[] = 'ProjectID:' . $this->ProjectID;
+            $this->Header[] = 'ProjectKey:' . $this->ProjectKey;
+            $this->Header[] = 'PartnerID:' . $this->PartnerID;
         }
-        $this->ApiKey = $ar->merchant_api;
-        $this->ApiSecret = $ar->merchant_secret;
+        $this->ApiKey = $ar->api;
+        $this->ApiSecret = $ar->secret;
+        $this->ProjectID = $ar->project_id;
+        $this->ProjectKey = $ar->project_key;
+        $this->PartnerID = $ar->partner_id;
         $this->ApiToken = Yii::$app->cache->get(get_class($this) . '_' . $this->ApiKey);
         $this->isSSL = $SSL;
     }
@@ -37,20 +48,6 @@ class KAPiMerchant extends KAPi
         $this->ApiToken = ($cUrl['access_token']) ? $cUrl['access_token'] : null;
         Yii::$app->cache->set(get_class($this) . '_' . $this->ApiKey, $this->ApiToken, 29 * (60 * 1000));
         return $cUrl;
-    }
-
-    public function setHeader($aR)
-    {
-        $this->Header['ProjectID'] = $aR['ProjectID'] ? 'ProjectID:' . $aR['ProjectID'] : $this->Header['ProjectID'];
-        $this->Header['ProjectKey'] = $aR['ProjectKey'] ? 'ProjectKey:' . $aR['ProjectKey'] : $this->Header['ProjectKey'];
-        $this->Header['PartnerID'] = $aR['PartnerID'] ? 'PartnerID:' . $aR['PartnerID'] : $this->Header['PartnerID'];
-    }
-
-    public function setMerchant($aR)
-    {
-        // $this->partnerId = $aR['partnerId'];
-        // $this->partnerSecret = $aR['partnerSecret'];
-        // $this->merchantId = $aR['merchantId'];
     }
 
     public function payWithCard($Head = [], $Body)

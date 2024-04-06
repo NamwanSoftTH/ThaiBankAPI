@@ -18,8 +18,8 @@ class KAPiSlipVerify extends KAPi
             $this->Url = 'https://openapi-sandbox.kasikornbank.com';
             $this->UrlSSL = 'https://openapi-test.kasikornbank.com/exercise/ssl';
         }
-        $this->ApiKey = $ar->slip_verification_api;
-        $this->ApiSecret = $ar->slip_verification_secret;
+        $this->ApiKey = $ar->api;
+        $this->ApiSecret = $ar->secret;
         $this->ApiToken = Yii::$app->cache->get(get_class($this) . '_' . $this->ApiKey);
         $this->isSSL = $SSL;
     }

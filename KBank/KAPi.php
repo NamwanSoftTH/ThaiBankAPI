@@ -24,6 +24,7 @@ class KAPi
         }
         $Header = ($this->Header) ? array_merge($Header, $this->Header) : $Header;
         $Header = ($this->isTest) ? array_merge($Header, ['x-test-mode:true']) : $Header;
+        // return $Header;
         // return $Body;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
