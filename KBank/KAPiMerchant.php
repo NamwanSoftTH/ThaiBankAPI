@@ -50,6 +50,36 @@ class KAPiMerchant extends KAPi
         return $cUrl;
     }
 
+    public function createMerchant($Head = [], $Body)
+    {
+        $cUrl = $this->cUrl('POST', $this->Url . '/v1/mpp/onboard/merchant/v1/juristic', $Head, $Body);
+        return $cUrl;
+    }
+
+    public function inquiryMerchant($Head = [], $Body)
+    {
+        $cUrl = $this->cUrl('POST', $this->Url . '/v1/mpp/merchant/v1/inquiry', $Head, $Body);
+        return $cUrl;
+    }
+
+    public function createShop($Head = [], $Body)
+    {
+        $cUrl = $this->cUrl('POST', $this->Url . '/v1/mpp/onboard/shop/v2/juristic', $Head, $Body);
+        return $cUrl;
+    }
+
+    public function updateShopOnboard($Head = [], $Body)
+    {
+        $cUrl = $this->cUrl('POST', $this->Url . '/v1/mpp/shop/v1/juristic', $Head, $Body);
+        return $cUrl;
+    }
+
+    public function inquiryShop($Head = [], $Body)
+    {
+        $cUrl = $this->cUrl('POST', $this->Url . '/v1/mpp/shop/v1/inquiry', $Head, $Body);
+        return $cUrl;
+    }
+
     public function payWithCard($Head = [], $Body)
     {
         $cUrl = $this->cUrl('POST', $this->Url . '/v1/mpp/payment/v1/card/charge', $Head, $Body);
